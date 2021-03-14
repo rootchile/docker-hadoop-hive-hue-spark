@@ -12,4 +12,4 @@ docker-compose -p "spark" -f docker-compose.spark.yml up -d --remove-orphans
 # Stop
 ``
 docker-compose -p "hive-hadoop" -f docker-compose.hive.yml down
-docker-compose -p "spark" -f docker-compose.spark.yml down ``
+docker-compose -p "spark" -f docker-compose.spark.yml down``
