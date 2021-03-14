@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  ##### jupyter #########
+
+  cluster-jupyterlab:
+    image: rootcl/cluster-jupyterlab
+    container_name: cluster-jupyterlab
+    restart: always
+    ports:
+      - 8888:8888
+    volumes:
+      - jupyterlab:/opt/workspace
+
+  cluster-spark-master:
+    image: rootcl/cluster-spark-master
+    container_name: cluster-spark-master
+    restart: always
+    ports:
+      - 7077:7077
+      - 4040:4040
+      - 8080:8080
+    volumes:
+      - jupyterlab:/opt/workspace
+
+  cluster-spark-worker-1:
+    image: rootcl/cluster-spark-worker
+    container_name: cluster-spark-worker-1
+    restart: always
+    environment:
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1024m
+    ports:
+      - 8002:8081
+    depends_on:
+      - cluster-spark-master
+
+  cluster-spark-worker-2:
+    image: rootcl/cluster-spark-worker
+    container_name: cluster-spark-worker-2
+    restart: always
+    environment:
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1024m
+    ports:
+      - 8003:8081
+    depends_on:
+      - cluster-spark-master
+
+  cluster-spark-worker-3:
+    image: rootcl/cluster-spark-worker
+    container_name: cluster-spark-worker-3
+    restart: always
+    environment:
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1024m
+    ports:
+      - 8004:8081
+    depends_on:
+      - cluster-spark-master
+
+volumes:
+  jupyterlab:
